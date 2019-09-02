@@ -1,9 +1,9 @@
 const staticAssets = [
-  '/',
-  '/styles.css',
-  '/app.js',
-  '/images/fetch-dog.jpg',
-  '/fallback.json'
+  './',
+  './styles.css',
+  './app.js',
+  './images/fetch-dog.jpg',
+  './fallback.json'
 ]
 
 console.log('test')
