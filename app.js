@@ -12,9 +12,6 @@ window.addEventListener('load', async () => {
     updateNews(e.target.value)
   })
 
-  console.log('test')
-  console.log(navigator)
-
   if ('serviceWorker' in navigator) {
     try {
       navigator.serviceWorker.register('serviceWorker.js')

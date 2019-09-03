@@ -6,8 +6,6 @@ const staticAssets = [
   './fallback.json'
 ]
 
-console.log('test')
-
 self.addEventListener('install', async event => {
   const cache = await caches.open('news-static')
   cache.addAll(staticAssets)
@@ -16,8 +14,6 @@ self.addEventListener('install', async event => {
 self.addEventListener('fetch', event => {
   const req = event.request
   const url = new URL(req.url)
-  console.log(url.origin)
-  console.log(location.origin)
 
   if (url.origin === location.origin) {
     event.respondWith(cacheFirst(req))

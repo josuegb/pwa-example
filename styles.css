@@ -6,7 +6,7 @@ body {
 }
 
 h1 {
-  color: purple;
+  color: #5a0fc8;
   text-transform: uppercase;
   font-weight: 800;
 }
@@ -27,7 +27,7 @@ main {
 }
 
 select {
-  background-color: purple;
+  background-color: #5a0fc8;
   color: #fff;
   cursor: pointer;
 }
