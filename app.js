@@ -4,14 +4,6 @@ const sourceSelector = document.querySelector('#sourceSelector')
 const defaultSource = 'the-washington-post'
 
 window.addEventListener('load', async () => {
-  updateNews()
-  await updateSources()
-  sourceSelector.value = defaultSource
-
-  sourceSelector.addEventListener('change', e => {
-    updateNews(e.target.value)
-  })
-
   if ('serviceWorker' in navigator) {
     try {
       navigator.serviceWorker.register('serviceWorker.js')
@@ -20,6 +12,13 @@ window.addEventListener('load', async () => {
       console.log('Service Worker registration fail')
     }
   }
+  updateNews()
+  await updateSources()
+  sourceSelector.value = defaultSource
+
+  sourceSelector.addEventListener('change', e => {
+    updateNews(e.target.value)
+  })
 })
 
 async function updateSources() {
