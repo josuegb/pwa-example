@@ -12,6 +12,7 @@ window.addEventListener('load', async () => {
       console.log('Service Worker registration fail')
     }
   }
+
   updateNews()
   await updateSources()
   sourceSelector.value = defaultSource

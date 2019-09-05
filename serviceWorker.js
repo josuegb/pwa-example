@@ -1,3 +1,5 @@
+importScripts('./node_modules/workbox-sw/build/workbox-sw.js')
+
 const staticAssets = [
   './',
   './styles.css',
@@ -6,39 +8,26 @@ const staticAssets = [
   './fallback.json'
 ]
 
-self.addEventListener('install', async event => {
-  const cache = await caches.open('news-static')
-  cache.addAll(staticAssets)
+workbox.precaching.precacheAndRoute(staticAssets)
+
+workbox.routing.registerRoute(
+  new RegExp('^' + 'https://newsapi.org/', 'i'),
+  new workbox.strategies.NetworkFirst()
+)
+
+workbox.routing.registerRoute(
+  /.*\.(png|gif|jpg|jpeg|svg)/,
+  new workbox.strategies.CacheFirst({
+    cacheName: 'news-images',
+    plugins: [
+      new workbox.expiration.Plugin({
+        maxEntries: 20,
+        maxAgeSeconds: 24 * 60 * 60 // 1 Day
+      })
+    ]
+  })
+)
+
+workbox.routing.setCatchHandler(() => {
+  return caches.match('./fallback.json')
 })
-
-self.addEventListener('fetch', event => {
-  const req = event.request
-  const url = new URL(req.url)
-
-  if (url.origin === location.origin) {
-    event.respondWith(cacheFirst(req))
-  } else {
-    event.respondWith(networkFirst(req))
-  }
-})
-
-async function cacheFirst(req) {
-  try {
-    return await caches.match(req)
-  } catch (error) {
-    return fetch(req)
-  }
-}
-
-async function networkFirst(req) {
-  const cache = await caches.open('news-dynamic')
-
-  try {
-    const networkResponse = await fetch(req)
-    cache.put(req, networkResponse.clone())
-    return networkResponse
-  } catch (error) {
-    const cacheResponse = await cache.match(req)
-    return cacheResponse || (await caches.match('./fallback.json'))
-  }
-}
