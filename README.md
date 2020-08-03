@@ -1,2 +1,2 @@
 # pwa-example 
-josuegb.github.io/pwa-example/
+https://josuegb.github.io/pwa-example/
